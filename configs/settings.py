@@ -93,9 +93,16 @@ TEMPLATES = [
 # WSGI application
 WSGI_APPLICATION = 'configs.wsgi.application'
 
+CORS_ORIGIN_WHITELIST = (
+    "https://api.tpm.house",
+    "http://api.tpm.house",
+    "http://localhost:8000",
+    "http://localhost:3000",
+    "https://app.tpm.house",
+)
+
 CSRF_TRUSTED_ORIGINS = [
     "https://carmanagement-1-rmyc.onrender.com",
-    "http://localhost:3000",
 ]
 
 CORS_ALLOW_METHODS = [
