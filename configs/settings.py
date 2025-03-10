@@ -117,7 +117,7 @@ AUTH_USER_MODEL = "users.User"
 
 
 SERIALIZERS = {
-    'USER_SERIALIZER': 'user.serializers.UserSerializer',
+    'USER_SERIALIZER': 'users.serializers.UserSerializer',
 }
 
 TEMPLATES = [
@@ -218,15 +218,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://redis:6379/1',
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        }
-    }
-}
 # Load local settings if available
 try:
     from local_settings import *
