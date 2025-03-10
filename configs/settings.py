@@ -77,12 +77,12 @@ CORS_ORIGIN_WHITELIST = (
 )
 
 CORS_ALLOW_METHODS = [
-    "DELETE",
     "GET",
-    "OPTIONS",
-    "PATCH",
     "POST",
     "PUT",
+    "PATCH",
+    "DELETE",
+    "OPTIONS",
 ]
 
 
