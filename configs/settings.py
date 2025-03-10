@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 from datetime import timedelta
-
+import dj_database_url
 # Load environment variables
 load_dotenv()
 
@@ -93,16 +93,17 @@ TEMPLATES = [
 # WSGI application
 WSGI_APPLICATION = 'configs.wsgi.application'
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://carmanagement-1-rmyc.onrender.com",
+]
+
 # Database settings
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("SQL_DATABASE"),
-        "USER": os.environ.get("SQL_USERNAME"),
-        "PASSWORD": os.environ.get('SQL_PASSWORD'),
-        "HOST": os.environ.get('SQL_HOST', 'localhost'),
-        "PORT": os.environ.get('SQL_PORT', '5432'),
-    }
+    'default': dj_database_url.config(
+        default="postgresql://demo_m93r_user:dEqZnvZ6Dz6krrUmt15dbrYLPEBrLX7A@dpg-cv7dla2j1k6c73ec4e0g-a.oregon-postgres.render.com/demo_m93r",
+        conn_max_age=600,  # Persistent connections
+        ssl_require=True   # Ensures SSL is used
+    )
 }
 
 # Authentication
