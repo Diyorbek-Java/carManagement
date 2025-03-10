@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'django_crontab',
     'modeltranslation',
     'rosetta',
-    'ckeditor',
 ]
 
 
@@ -119,6 +118,8 @@ AUTH_USER_MODEL = "users.User"
 SERIALIZERS = {
     'USER_SERIALIZER': 'users.serializers.UserSerializer',
 }
+ROOT_URLCONF = "configs.urls"  
+
 
 TEMPLATES = [
     {

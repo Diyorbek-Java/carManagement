@@ -10,4 +10,3 @@ dj_database_url==2.3.0
 django-crontab==0.7.1
 django-modeltranslation==0.19.12
 django-rosetta==0.10.1
-django-ckeditor==6.7.2
