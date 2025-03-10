@@ -1,42 +1,106 @@
-import os
+from django.utils.translation import gettext_lazy as _
 from pathlib import Path
+import os
 from dotenv import load_dotenv
-from datetime import timedelta
-
-# Load environment variables
 load_dotenv()
 
-# Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Security settings
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "django-insecure-default-key")
-DEBUG = os.environ.get("DEBUG", "True") == "True"
+LANGUAGES = [
+    ('en', _('English')),
+    ('ru', _('Russian')),
+    ('uz', _('Uzbek')),
+]
 
-ALLOWED_HOSTS = ["*"]  # Allow all hosts in development
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, "locale/", "en"),
+    os.path.join(BASE_DIR, "locale/", "ru"),
+    os.path.join(BASE_DIR, "locale/", "uz"),
 
-# Installed apps
+]
+
+# cred = credentials.Certificate("config/firebaseaccountkey/serviceAccountKey.json")
+# default_app = firebase_admin.initialize_app(cred)
+
+SECRET_KEY = os.getenv("SECRET_KEY", default="foo")
+
+DEBUG = True  # os.getenv("DEBUG") == "True"
+
+ALLOWED_HOSTS = ["*"]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.tpm.house",
+    "http://*.narkalla.uz",
+    "https://*.127.0.0.1",
+]
+
+
 INSTALLED_APPS = [
-    # Django default apps
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    'django_crontab',
+    'modeltranslation',
+    'rosetta',
+    'ckeditor',
+]
 
-    # Third-party apps
+
+THIRD_PARTY_APPS = [
     "rest_framework",
-    "rest_framework_simplejwt",
-    "corsheaders",
     "drf_yasg",
+    "corsheaders",
+]
 
-    # Custom apps
+
+CUSTOM_APPS = [
     "app",
     "users",
 ]
 
-# Middleware
+
+INSTALLED_APPS += THIRD_PARTY_APPS + CUSTOM_APPS
+
+
+SITE_ID = 1
+
+
+CORS_ORIGIN_WHITELIST = (
+    "https://api.tpm.house",
+    "http://api.tpm.house",
+    "http://localhost:8000",
+    "http://localhost:3000",
+    "http://127.0.0.1:8000",
+    "https://app.tpm.house",
+)
+
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+
+
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
+
+
+CORS_ALLOW_ALL_ORIGINS = True
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
@@ -47,56 +111,80 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     'django.middleware.locale.LocaleMiddleware',
-    'users.middleware.CorsMiddleware',
 ]
 
-# Root URL configuration
-ROOT_URLCONF = 'configs.urls'
+AUTH_USER_MODEL = "user.User"
 
-# Template settings
+
+SERIALIZERS = {
+    'USER_SERIALIZER': 'user.serializers.UserSerializer',
+}
+
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "templates"],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+                "django.template.context_processors.static",
             ],
         },
     },
 ]
 
-# WSGI application
-WSGI_APPLICATION = 'configs.wsgi.application'
+WSGI_APPLICATION = "config.wsgi.application"
 
-# Database settings (PostgreSQL)
+
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("SQL_DATABASE", "your_db"),
-        "USER": os.environ.get("SQL_USERNAME", "your_user"),
-        "PASSWORD": os.environ.get("SQL_PASSWORD", "your_password"),
-        "HOST": os.environ.get("SQL_HOST", "localhost"),
-        "PORT": os.environ.get("SQL_PORT", "5432"),
+        "ENGINE": os.environ.get("SQL_ENGINE", default="django.db.backends.postgresql"),
+        "NAME": os.environ.get("SQL_DATABASE", default="app_prod"),
+        "USER": os.environ.get("SQL_USERNAME", default="postgres"),
+        "PASSWORD": os.environ.get("SQL_PASSWORD", default="8454f3fc8f1ddb68a218996d59c8b38e4b8fbba2"),
+        "HOST": os.environ.get("SQL_HOST", default="db"),
+        "PORT": os.environ.get("SQL_PORT", default="5432"),
     }
 }
 
-# Authentication settings
-AUTH_USER_MODEL = "users.User"
 
-# Password validation
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
+    {
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+    },
 ]
 
-# JWT Authentication
+
+LANGUAGE_CODE = "en-us"
+
+TIME_ZONE = "Asia/Tashkent"
+
+USE_I18N = True
+
+USE_TZ = True
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+}
+
+from datetime import timedelta
+
+
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=10),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
@@ -105,87 +193,40 @@ SIMPLE_JWT = {
     "UPDATE_LAST_LOGIN": False,
     "ALGORITHM": "HS256",
     "SIGNING_KEY": SECRET_KEY,
+    "VERIFYING_KEY": None,
+    "AUDIENCE": None,
+    "ISSUER": None,
     "AUTH_HEADER_TYPES": ("Bearer",),
+    "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
+    "USER_ID_FIELD": "id",
+    "USER_ID_CLAIM": "user_id",
+    "USER_AUTHENTICATION_RULE": "rest_framework_simplejwt.authentication.default_user_authentication_rule",
+    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
+    "TOKEN_TYPE_CLAIM": "token_type",
+    "JTI_CLAIM": "jti",
+    "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
+    "SLIDING_TOKEN_LIFETIME": timedelta(days=1),
+    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=2),
 }
 
-# REST Framework settings
-REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ],
-}
 
-# Localization
-LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
-USE_I18N = True
-USE_TZ = True
-
-# Static files
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-# Default primary key field type
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-# CORS Configuration
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = False
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:3000",
-    "http://localhost:3000",  
-    "https://carmanagement-1-rmyc.onrender.com",
-]
-
-# CORS_ALLOW_METHODS = ["*"
-#     # "DELETE",
-#     # "GET",
-#     # "OPTIONS",
-#     # "PATCH",
-#     # "POST",
-#     # "PUT",
-# ]
-
-# CORS_ALLOW_HEADERS = ["*"
-#     # "accept",
-#     # "accept-encoding",
-#     # "authorization",
-#     # "content-type",
-#     # "dnt",
-#     # "origin",
-#     # "user-agent",
-#     # "x-csrftoken",
-#     # "x-requested-with",
-# ]
-
-# CSRF Trusted Origins
-# CSRF_TRUSTED_ORIGINS = [
-#     "https://carmanagement-1-rmyc.onrender.com",
-# ]
-
-# Swagger settings
-SWAGGER_SETTINGS = {
-    "USE_SESSION_AUTH": False,
-    "SECURITY_DEFINITIONS": {
-        "Bearer": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header",
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://redis:6379/1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
-    },
+    }
 }
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-]
-
-# Redoc settings
-REDOC_SETTINGS = {
-    "LAZY_RENDERING": False,
-}
-
 # Load local settings if available
 try:
     from local_settings import *
