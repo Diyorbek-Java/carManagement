@@ -29,12 +29,6 @@ DEBUG = True  # os.getenv("DEBUG") == "True"
 
 ALLOWED_HOSTS = ["*"]
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://*.tpm.house",
-    "http://*.narkalla.uz",
-    "https://*.127.0.0.1",
-]
-
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -68,35 +62,7 @@ INSTALLED_APPS += THIRD_PARTY_APPS + CUSTOM_APPS
 SITE_ID = 1
 
 
-CORS_ALLOW_METHODS = [
-    "GET",
-    "POST",
-    "PUT",
-    "PATCH",
-    "DELETE",
-    "OPTIONS",
-]
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_HEADERS = [
-    'accept',
-    'accept-encoding',
-    'authorization',
-    'content-type',
-    'dnt',
-    'origin',
-    'user-agent',
-    'x-csrftoken',
-    'x-requested-with',
-    # Add any custom headers here
-]
-CORS_LOGGING_DEBUG = True
-# CORS_ALLOW_ALL_ORIGINS = False
-CORS_ORIGIN_ALLOW_ALL = True
-# CORS_ORIGIN_WHITELIST = [
-#     "http://localhost:3000",
-#     "http://127.0.0.1:3000",
-#     "https://carmanagement-1-rmyc.onrender.com",
-# ]
+
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
@@ -109,6 +75,31 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     'django.middleware.locale.LocaleMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
+# Optional: Enable logging for CORS
+CORS_LOGGING_DEBUG = True
 
 AUTH_USER_MODEL = "users.User"
 
