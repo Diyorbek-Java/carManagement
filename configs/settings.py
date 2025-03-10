@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 from datetime import timedelta
+import dj_database_url
 
 # Load environment variables
 load_dotenv()
@@ -95,7 +96,29 @@ WSGI_APPLICATION = 'configs.wsgi.application'
 
 CSRF_TRUSTED_ORIGINS = [
     "https://carmanagement-1-rmyc.onrender.com",
+    "http://localhost:3000",
 ]
+
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Database settings
 DATABASES = {
@@ -173,3 +196,8 @@ SWAGGER_SETTINGS = {
 REDOC_SETTINGS = {
     'LAZY_RENDERING': False,
 }
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
