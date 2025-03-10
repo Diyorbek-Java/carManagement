@@ -137,15 +137,13 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "config.wsgi.application"
-
 
 DATABASES = {
     "default": {
-        "ENGINE": os.environ.get("SQL_ENGINE", default="django.db.backends.postgresql"),
-        "NAME": os.environ.get("SQL_DATABASE", default="app_prod"),
-        "USER": os.environ.get("SQL_USERNAME", default="postgres"),
-        "PASSWORD": os.environ.get("SQL_PASSWORD", default="8454f3fc8f1ddb68a218996d59c8b38e4b8fbba2"),
+        "ENGINE": os.environ.get("SQL_ENGINE"),
+        "NAME": os.environ.get("SQL_DATABASE"),
+        "USER": os.environ.get("SQL_USERNAME"),
+        "PASSWORD": os.environ.get("SQL_PASSWORD",),
         "HOST": os.environ.get("SQL_HOST", default="db"),
         "PORT": os.environ.get("SQL_PORT", default="5432"),
     }
