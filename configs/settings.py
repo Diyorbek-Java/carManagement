@@ -47,7 +47,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     'django.middleware.locale.LocaleMiddleware',
-
+    'users.middleware.CorsMiddleware',
 ]
 
 # Root URL configuration
@@ -131,39 +131,40 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS Configuration
 CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = False
 
 CORS_ALLOWED_ORIGINS = [
-    "*"
-    # "http://localhost:3000",  # Add your frontend URL here
-    # "https://carmanagement-1-rmyc.onrender.com",
-]
-
-CORS_ALLOW_METHODS = ["*"
-    # "DELETE",
-    # "GET",
-    # "OPTIONS",
-    # "PATCH",
-    # "POST",
-    # "PUT",
-]
-
-CORS_ALLOW_HEADERS = ["*"
-    # "accept",
-    # "accept-encoding",
-    # "authorization",
-    # "content-type",
-    # "dnt",
-    # "origin",
-    # "user-agent",
-    # "x-csrftoken",
-    # "x-requested-with",
-]
-
-# CSRF Trusted Origins
-CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:3000",
+    "http://localhost:3000",  
     "https://carmanagement-1-rmyc.onrender.com",
 ]
+
+# CORS_ALLOW_METHODS = ["*"
+#     # "DELETE",
+#     # "GET",
+#     # "OPTIONS",
+#     # "PATCH",
+#     # "POST",
+#     # "PUT",
+# ]
+
+# CORS_ALLOW_HEADERS = ["*"
+#     # "accept",
+#     # "accept-encoding",
+#     # "authorization",
+#     # "content-type",
+#     # "dnt",
+#     # "origin",
+#     # "user-agent",
+#     # "x-csrftoken",
+#     # "x-requested-with",
+# ]
+
+# CSRF Trusted Origins
+# CSRF_TRUSTED_ORIGINS = [
+#     "https://carmanagement-1-rmyc.onrender.com",
+# ]
 
 # Swagger settings
 SWAGGER_SETTINGS = {
@@ -176,6 +177,9 @@ SWAGGER_SETTINGS = {
         }
     },
 }
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
 
 # Redoc settings
 REDOC_SETTINGS = {
