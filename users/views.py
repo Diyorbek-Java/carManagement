@@ -100,3 +100,13 @@ def get_user_data(request):
     except Exception as e:
         return Response({"error": f"{e}"}, status=404)
 
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def home(request):
+    try:
+        data = {
+            "Hello World"
+        }
+        return Response(data,status=200)
+    except Exception as e:
+        return Response({f"error: {e}"},status=200)

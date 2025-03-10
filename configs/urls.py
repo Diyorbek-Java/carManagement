@@ -9,7 +9,7 @@ from django.conf.urls.static import static
 from django.urls import path, include
 
 from rest_framework.permissions import AllowAny
-from users.views import user_login,get_user_data
+from users.views import user_login,get_user_data,home
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework_simplejwt.views import (
@@ -33,6 +33,7 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
+    path('', home, name='home'),
     path('admin/', admin.site.urls),
     # path("api/v1/", include("app.urls.base-urls")),
     path("swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
