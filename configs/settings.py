@@ -89,7 +89,6 @@ CORS_ALLOW_HEADERS = ["*"]
 CORS_ALLOW_CREDENTIALS = True
 
 MIDDLEWARE = [
-    "users.middleware.CorsMiddleware", 
     "corsheaders.middleware.CorsMiddleware",  # Keep django-cors-headers if you're using it
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",

@@ -19,9 +19,6 @@ from django.contrib.auth import authenticate
 
 from .serializer import RequestUserSerializer
 
-
-
-
 from .models import User
 
 def get_tokens_for_user(user):
