@@ -62,13 +62,44 @@ INSTALLED_APPS += THIRD_PARTY_APPS + CUSTOM_APPS
 SITE_ID = 1
 
 
+# CORS
+CORS_ORIGIN_WHITELIST = (
+    "https://api.tpm.house",
+    "http://api.tpm.house",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "https://app.tpm.house",
+)
 
+CORS_ALLOW_METHODS = [
+    "GET",
+    "PUT",
+    "POST",
+    "PATCH",
+    "OPTIONS",
+    "DELETE",
+]
+
+
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.common.CommonMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -76,30 +107,8 @@ MIDDLEWARE = [
     'django.middleware.locale.LocaleMiddleware',
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_METHODS = [
-    'DELETE',
-    'GET',
-    'OPTIONS',
-    'PATCH',
-    'POST',
-    'PUT',
-]
-CORS_ALLOW_HEADERS = [
-    'accept',
-    'accept-encoding',
-    'authorization',
-    'content-type',
-    'dnt',
-    'origin',
-    'user-agent',
-    'x-csrftoken',
-    'x-requested-with',
-]
 
-# Optional: Enable logging for CORS
-CORS_LOGGING_DEBUG = True
+
 
 AUTH_USER_MODEL = "users.User"
 
