@@ -37,12 +37,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path("api/v1/", include("app.urls.base-urls")),
     path("swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
-     # Use DRF's default login method
-    path("api/v1/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/v1/token/", user_login, ),
     path("api/v1/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("api/v1/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
     path("request-user-data",get_user_data,name="Request User data"),
     path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
 
-    # path("api/v1/token/resident/",user_login_resident,name="token only for admin"),
 ]
