@@ -64,11 +64,10 @@ SITE_ID = 1
 
 # CORS
 CORS_ORIGIN_WHITELIST = (
-    "https://api.tpm.house",
-    "http://api.tpm.house",
     "http://localhost:3000",
+    "http://localhost:8000",
     "http://127.0.0.1:3000",
-    "https://app.tpm.house",
+    "http://127.0.0.1:8000",
 )
 
 CORS_ALLOW_METHODS = [
