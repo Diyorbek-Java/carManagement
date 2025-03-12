@@ -63,9 +63,10 @@ SITE_ID = 1
 
 CORS_ALLOWED_ORIGINS = [
     'https://api.tpm.house',
-    'http://localhost:8000',
-    'http://localhost:3000',
+    'http://localhost:8000',  # Your frontend
+    'http://localhost:3000',  # If you use this in development
     'https://app.tpm.house',
+    'http://carmanagement-1-rmyc.onrender.com'  # Adding Render's domain
 ]
 
 CORS_ALLOW_METHODS = [
