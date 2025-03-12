@@ -61,13 +61,12 @@ INSTALLED_APPS += THIRD_PARTY_APPS + CUSTOM_APPS
 
 SITE_ID = 1
 
-CORS_ORIGIN_WHITELIST = (
-    "https://api.tpm.house",
-    "http://api.tpm.house",
-    "http://localhost:8000",
-    "http://127.0.0.1:8000",
-    "https://app.tpm.house",
-)
+CORS_ALLOWED_ORIGINS = [
+    'https://api.tpm.house',
+    'http://localhost:8000',
+    'http://localhost:3000',
+    'https://app.tpm.house',
+]
 
 CORS_ALLOW_METHODS = [
     "DELETE",
@@ -92,7 +91,7 @@ CORS_ALLOW_HEADERS = [
 ]
 
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
