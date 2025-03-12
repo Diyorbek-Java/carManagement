@@ -67,6 +67,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',  # If you use this in development
     'https://app.tpm.house',
     'http://carmanagement-1-rmyc.onrender.com'  # Adding Render's domain
+    'https://carmanagement-1-rmyc.onrender.com'  # Adding Render's domain
 ]
 
 CORS_ALLOW_METHODS = [
