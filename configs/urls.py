@@ -21,7 +21,7 @@ from rest_framework_simplejwt.views import (
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="TPM Project",
+        title="Car MAnagement",
         default_version="v1",
         description="This project contains APIs for Get an offer.",
         terms_of_service="https://www.google.com/policies/terms/",

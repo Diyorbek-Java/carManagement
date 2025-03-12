@@ -61,22 +61,21 @@ INSTALLED_APPS += THIRD_PARTY_APPS + CUSTOM_APPS
 
 SITE_ID = 1
 
-
-# CORS
 CORS_ORIGIN_WHITELIST = (
-    "http://localhost:3000",
+    "https://api.tpm.house",
+    "http://api.tpm.house",
     "http://localhost:8000",
-    "http://127.0.0.1:3000",
     "http://127.0.0.1:8000",
+    "https://app.tpm.house",
 )
 
 CORS_ALLOW_METHODS = [
-    "GET",
-    "PUT",
-    "POST",
-    "PATCH",
-    "OPTIONS",
     "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
 ]
 
 
@@ -91,6 +90,7 @@ CORS_ALLOW_HEADERS = [
     "x-csrftoken",
     "x-requested-with",
 ]
+
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -149,9 +149,9 @@ DATABASES = {
 }
 
 # If using Render or another service, override database settings
-DATABASE_URL = os.getenv("DATABASE_URL")
-if DATABASE_URL:
-    DATABASES["default"] = dj_database_url.config(default=DATABASE_URL, conn_max_age=600, ssl_require=True)
+# DATABASE_URL = os.getenv("DATABASE_URL")
+# if DATABASE_URL:
+#     DATABASES["default"] = dj_database_url.config(default=DATABASE_URL, conn_max_age=600, ssl_require=True)
 
 AUTH_PASSWORD_VALIDATORS = [
     {
