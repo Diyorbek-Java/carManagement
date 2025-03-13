@@ -1,6 +1,14 @@
 from django.db import models
-
+from uuid import uuid4
+import os
 from ..models.branch import Branch
+
+
+def car_images_upload_to(instance, filename):
+    ext = str(filename).split(".")[-1]
+    filename = f"{uuid4()}.{ext}"
+    return os.path.join(f'cars/{instance}/{filename}')
+
 class Car(models.Model):
     COLOR_CHOICES = [
         ("red", "Red"),
@@ -59,3 +67,9 @@ class Car(models.Model):
     branch = models.ForeignKey(Branch, related_name="brach_of_car", on_delete=models.CASCADE)
     def __str__(self):
         return f"{self.brand} {self.model} ({self.license_plate})"
+class CarImages(models.Model):
+    photo = models.FileField(upload_to=car_images_upload_to)
+    car_id = models.ForeignKey(Car, on_delete=models.CASCADE, related_name="images")
+
+    def __str__(self) -> str:
+        return f"{self.car_id}"

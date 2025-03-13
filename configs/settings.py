@@ -63,11 +63,11 @@ SITE_ID = 1
 
 CORS_ALLOWED_ORIGINS = [
     'https://api.tpm.house',
-    'http://localhost:8000',  # Your frontend
-    'http://localhost:3000',  # If you use this in development
+    'http://localhost:8000',  
+    'http://localhost:3000', 
     'https://app.tpm.house',
-    'http://carmanagement-1-rmyc.onrender.com'  # Adding Render's domain
-    'https://carmanagement-1-rmyc.onrender.com'  # Adding Render's domain
+    'http://carmanagement-1-rmyc.onrender.com',
+    'https://carmanagement-1-rmyc.onrender.com'  
 ]
 
 CORS_ALLOW_METHODS = [
@@ -150,9 +150,9 @@ DATABASES = {
 }
 
 # If using Render or another service, override database settings
-# DATABASE_URL = os.getenv("DATABASE_URL")
-# if DATABASE_URL:
-#     DATABASES["default"] = dj_database_url.config(default=DATABASE_URL, conn_max_age=600, ssl_require=True)
+DATABASE_URL = os.getenv("DATABASE_URL")
+if DATABASE_URL:
+    DATABASES["default"] = dj_database_url.config(default=DATABASE_URL, conn_max_age=600, ssl_require=True)
 
 AUTH_PASSWORD_VALIDATORS = [
     {
