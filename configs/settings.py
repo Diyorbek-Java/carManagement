@@ -68,6 +68,7 @@ CORS_ALLOWED_ORIGINS = [
     'https://app.tpm.house',
     'http://carmanagement-1-rmyc.onrender.com',
     'https://carmanagement-1-rmyc.onrender.com', 
+    'https://xsoftt.vercel.app/',
 ]
 
 CORS_ALLOW_METHODS = [
