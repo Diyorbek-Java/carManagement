@@ -2,8 +2,8 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from django.db import transaction
 
-from ..serializers.cars import CarSerializer,CarGetSerializer
-from ..models.cars import Car,CarImages
+from ..serializers.cars import CarSerializer,CarGetSerializer,CarFarutesSerializer
+from ..models.cars import Car,CarImages,CarFeatures
 from ..pagination .paginations import DefaultLimitOffSetPagination
 from django.db.models import Q
 from rest_framework import status
@@ -11,6 +11,11 @@ from rest_framework import serializers
 from rest_framework.response import Response
 from users.models import User
 
+
+class CarFeaturesModelViewSet(viewsets.ModelViewSet):
+    queryset = CarFeatures.objects.all()
+    serializer_class = CarFarutesSerializer
+    pagination_class = DefaultLimitOffSetPagination
 
 class CarViewSet(viewsets.ModelViewSet):
     queryset = Car.objects.all()
