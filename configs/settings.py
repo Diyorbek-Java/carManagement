@@ -67,6 +67,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000', 
     'https://app.tpm.house',
     'http://carmanagement-1-rmyc.onrender.com',
+    'https://carmanagement-1-rmyc.onrender.com', 
 ]
 
 CORS_ALLOW_METHODS = [
