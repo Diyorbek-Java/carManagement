@@ -9,6 +9,10 @@ def car_images_upload_to(instance, filename):
     filename = f"{uuid4()}.{ext}"
     return os.path.join(f'cars/{instance}/{filename}')
 
+class CarFeatures(models.Model):
+    name = models.CharField(max_length=100)
+    icon = models.CharField(max_length=100)
+    
 class Car(models.Model):
     COLOR_CHOICES = [
         ("red", "Red"),
@@ -60,7 +64,7 @@ class Car(models.Model):
     year = models.PositiveIntegerField()
     deposit = models.DecimalField(max_digits=10, decimal_places=2)
     minimum_age = models.PositiveIntegerField()
-    features = models.TextField(blank=True)
+    features = models.ManyToManyField(CarFeatures,blank=True)
     engine_size = models.CharField(max_length=10, choices=ENGINE_CHOICES)
     rental_status = models.CharField(max_length=20, choices=RENTAL_STATUS_CHOICES)
     description = models.TextField(blank=True)

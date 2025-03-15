@@ -2,10 +2,16 @@ from django.contrib import admin
 
 
 from .models.branch import Branch
-from .models.cars import Car,CarImages
+from .models.cars import Car,CarImages,CarFeatures
 
 @admin.register(Branch)
 class BranchAdmin(admin.ModelAdmin):
+    list_display = [
+        "id",
+        "name"
+    ]
+@admin.register(CarFeatures)
+class CarFeatureAdmin(admin.ModelAdmin):
     list_display = [
         "id",
         "name"

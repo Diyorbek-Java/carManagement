@@ -5,12 +5,16 @@ from rest_framework.routers import DefaultRouter
 
 from ..view.branch import BranchViewSet
 from ..view.cars import CarViewSet
-from users.views import home
+
+
+from users.views import home,UserViewSet,UserRoleViewSet
 app_name = "base"
 router = DefaultRouter()
 
 router.register("branchs", BranchViewSet, basename="Branches")
 router.register("cars",CarViewSet,basename="Cars")
+router.register("users",UserViewSet,basename="Users")
+router.register("user-role",UserRoleViewSet,basename="UserRole")
 
 urlpatterns = [
     path("herllo",home,name="second hoem")

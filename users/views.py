@@ -9,6 +9,8 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from drf_yasg import openapi
 
+from rest_framework import viewsets
+
 from django.db.models import Q
 from rest_framework import status
 from rest_framework.views import APIView
@@ -17,9 +19,12 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 
-from .serializer import RequestUserSerializer
+from 
+from app.pagination .paginations import DefaultLimitOffSetPagination
 
-from .models import User
+from .serializer import RequestUserSerializer,UserSerializer,UserRoleSerializer
+
+from .models import User,UserRole
 
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
@@ -28,6 +33,23 @@ def get_tokens_for_user(user):
         'access': str(refresh.access_token)
     }
 
+
+class UserRoleViewSet(viewsets.ModelViewSet):
+    queryset = UserRole.objects.all()
+    serializer_class = UserRoleSerializer
+    pagination_class = DefaultLimitOffSetPagination
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    pagination_class = DefaultLimitOffSetPagination
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return RequestUserSerializer
+        return UserSerializer
+    
 
 @swagger_auto_schema(
     method='post',

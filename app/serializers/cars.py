@@ -17,9 +17,13 @@ class CarImagesGetSerializer(serializers.ModelSerializer):
     def get_photo(self, obj):
         return obj.photo.url
 
+class CarFarutesSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = "__all__"
 
 class CarGetSerializer(serializers.ModelSerializer):
     images = CarImagesGetSerializer(many=True, required=False)
+    features = CarFarutesSerializer(many=True,required=False)
     class Meta:
         model = Car
         fields = '__all__'
