@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from ..models.cars import Car,CarImages
+from ..models.cars import Car,CarImages,CarFeatures
 
 class CarImageSeriazlier(serializers.ModelSerializer):
 
@@ -19,6 +19,7 @@ class CarImagesGetSerializer(serializers.ModelSerializer):
 
 class CarFarutesSerializer(serializers.ModelSerializer):
     class Meta:
+        model=CarFeatures
         fields = "__all__"
 
 class CarGetSerializer(serializers.ModelSerializer):
