@@ -40,7 +40,7 @@ urlpatterns = [
     path("api/v1/token/", user_login, ),
     path("api/v1/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("api/v1/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
-    path("api/v1/request-user-data",get_user_data,name="Request User data"),
+    path("api/v1/request-user-data/",get_user_data,name="Request User data"),
     path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
 
 ]
