@@ -71,6 +71,7 @@ class Car(models.Model):
     branch = models.ForeignKey(Branch, related_name="brach_of_car", on_delete=models.CASCADE)
     def __str__(self):
         return f"{self.brand} {self.model} ({self.license_plate})"
+
 class CarImages(models.Model):
     photo = models.FileField(upload_to=car_images_upload_to)
     car_id = models.ForeignKey(Car, on_delete=models.CASCADE, related_name="images")

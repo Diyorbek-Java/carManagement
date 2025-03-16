@@ -9,6 +9,8 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from drf_yasg import openapi
 
+import random
+import string,secrets
 from rest_framework import viewsets
 
 from django.db.models import Q
@@ -19,10 +21,12 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 
+from app.utils import notification
+from app.models.notification import MessageLog
 
 from app.pagination .paginations import DefaultLimitOffSetPagination
 
-from .serializer import RequestUserSerializer,UserSerializer,UserRoleSerializer
+from .serializer import RequestUserSerializer,UserSerializer,UserRoleSerializer,UserCreateSerializer
 
 from .models import User,UserRole
 
@@ -32,7 +36,6 @@ def get_tokens_for_user(user):
         'refresh': str(refresh),
         'access': str(refresh.access_token)
     }
-
 
 class UserRoleViewSet(viewsets.ModelViewSet):
     queryset = UserRole.objects.all()
@@ -46,10 +49,51 @@ class UserViewSet(viewsets.ModelViewSet):
     pagination_class = DefaultLimitOffSetPagination
 
     def get_serializer_class(self):
-        if self.action == 'list':
-            return RequestUserSerializer
-        return UserSerializer
+        if self.action in ['create', 'update', 'partial_update']:
+            return UserCreateSerializer
+        return RequestUserSerializer
     
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        # Generate a secure temporary password and OTP
+        temp_password = ''.join(secrets.choice(string.ascii_letters + string.digits) for _ in range(8))
+        otp = random.randint(100000, 999999)
+
+        # Save the user with the temporary password and mark as inactive
+        user = serializer.save(
+            is_active=False,
+            password=make_password(temp_password),
+        )
+
+        # Store the OTP in the database (e.g., in a UserOTP model)
+        # user.otp = otp
+        # user.save()
+
+        # Prepare the email message
+        # message = f"""Your OTP is {otp}. Your temporary password is {temp_password}.
+        #         Use this password to log in after verifying your OTP and change it immediately."""
+        # subject = "Your One-Time Password (OTP) & Temporary Password"
+
+        # Send the email
+        # try:
+        #     notification.send_email(recipient=user.email, message=message, subject=subject)
+        # except Exception as e:
+        #     return Response(
+        #         {"error": f"Failed to send email: {str(e)}"},
+        #         status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        #     )
+
+        return Response(
+            {
+                "message": "User created successfully. OTP and temporary password sent to email.",
+                "user_id": user.id,
+                "password":temp_password
+            },
+            status=status.HTTP_201_CREATED
+        )
+            
 
 @swagger_auto_schema(
     method='post',

@@ -30,9 +30,16 @@ class RequestUserSerializer(serializers.ModelSerializer):
             "branch",
             "full_name",
             "email",
+            "address",
+            "avatar"
         )
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = "__all__"
+
+class UserCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("email","address","branch","user_role","full_name","phone_number","avatar")

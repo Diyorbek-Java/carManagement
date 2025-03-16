@@ -151,9 +151,9 @@ DATABASES = {
 }
 
 # If using Render or another service, override database settings
-DATABASE_URL = os.getenv("DATABASE_URL")
-if DATABASE_URL:
-    DATABASES["default"] = dj_database_url.config(default=DATABASE_URL, conn_max_age=600, ssl_require=True)
+# DATABASE_URL = os.getenv("DATABASE_URL")
+# if DATABASE_URL:
+#     DATABASES["default"] = dj_database_url.config(default=DATABASE_URL, conn_max_age=600, ssl_require=True)
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -221,8 +221,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 # Load local settings if available
-try:
-    from local_settings import *
-except ImportError:
-    pass
+# try:
+#     from local_settings import *
+# except ImportError:
+#     pass

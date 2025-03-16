@@ -62,7 +62,7 @@ class CarViewSet(viewsets.ModelViewSet):
                 error_messages[field] = ' '.join([str(err) for err in errors])
             return Response({'error': error_messages}, status=status.HTTP_400_BAD_REQUEST)
         
-        return Response({'message': 'Car Created Successfully'}, status=status.HTTP_201_CREATED)
+        return Response({'message': CarGetSerializer(car_instance).data()}, status=status.HTTP_201_CREATED)
     def update(self, request, *args, **kwargs):
         try:
             instance = self.get_object()
