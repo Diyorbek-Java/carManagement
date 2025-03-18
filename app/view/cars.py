@@ -18,7 +18,7 @@ class CarFeaturesModelViewSet(viewsets.ModelViewSet):
     pagination_class = DefaultLimitOffSetPagination
 
 class CarViewSet(viewsets.ModelViewSet):
-    queryset = Car.objects.all()
+    queryset = Car.objects.filter().order_by('-updated_at')
     serializer_class = CarSerializer
     pagination_class = DefaultLimitOffSetPagination
 

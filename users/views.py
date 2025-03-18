@@ -44,7 +44,7 @@ class UserRoleViewSet(viewsets.ModelViewSet):
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
+    queryset = User.objects.filter().order_by("-updated_at")
     serializer_class = UserSerializer
     pagination_class = DefaultLimitOffSetPagination
 
@@ -66,24 +66,6 @@ class UserViewSet(viewsets.ModelViewSet):
             is_active=False,
             password=make_password(temp_password),
         )
-
-        # Store the OTP in the database (e.g., in a UserOTP model)
-        # user.otp = otp
-        # user.save()
-
-        # Prepare the email message
-        # message = f"""Your OTP is {otp}. Your temporary password is {temp_password}.
-        #         Use this password to log in after verifying your OTP and change it immediately."""
-        # subject = "Your One-Time Password (OTP) & Temporary Password"
-
-        # Send the email
-        # try:
-        #     notification.send_email(recipient=user.email, message=message, subject=subject)
-        # except Exception as e:
-        #     return Response(
-        #         {"error": f"Failed to send email: {str(e)}"},
-        #         status=status.HTTP_500_INTERNAL_SERVER_ERROR
-        #     )
 
         return Response(
             {

@@ -6,7 +6,7 @@ from ..pagination .paginations import DefaultLimitOffSetPagination
 from rest_framework.permissions import IsAuthenticated
 
 class BranchViewSet(viewsets.ModelViewSet):
-    queryset = Branch.objects.all()
+    queryset = Branch.objects.filter().order_by("-updated_at")
     serializer_class = BranchAllSerializer
     pagination_class = DefaultLimitOffSetPagination
     # permission_classes = [IsAuthenticated]

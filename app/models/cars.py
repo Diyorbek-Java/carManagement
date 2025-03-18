@@ -2,7 +2,7 @@ from django.db import models
 from uuid import uuid4
 import os
 from ..models.branch import Branch
-
+from django.utils import timezone
 
 def car_images_upload_to(instance, filename):
     ext = str(filename).split(".")[-1]
@@ -69,6 +69,8 @@ class Car(models.Model):
     rental_status = models.CharField(max_length=20, choices=RENTAL_STATUS_CHOICES)
     description = models.TextField(blank=True)
     branch = models.ForeignKey(Branch, related_name="brach_of_car", on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
         return f"{self.brand} {self.model} ({self.license_plate})"
 
