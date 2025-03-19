@@ -52,6 +52,7 @@ class User(AbstractUser):
     phone_number_regex = RegexValidator(regex=r"^(\+998|998)\d{9}$", message="Phone number Regex")
     comment = models.CharField(max_length=255,null=True,blank=True)
     phone_number = models.CharField(validators=[phone_number_regex], max_length=16, unique=True,null=True)
+    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     otp_counter = models.PositiveSmallIntegerField(default=0)
@@ -74,6 +75,7 @@ class User(AbstractUser):
     def save(self, *args, **kwargs):
         self.full_clean()
         super().save(*args, **kwargs)
+
 
 class UniqueConfig(models.Model):
     otp_counter = models.PositiveIntegerField(default=0)

@@ -4,9 +4,22 @@ from django.contrib import admin
 from .models.branch import Branch
 from .models.cars import Car,CarImages,CarFeatures
 from app.models.notification import MessageLog
+from app.models.employee import Employee
+from app.models.client import Client
 
 
-
+@admin.register(Employee)
+class EmployeeAdmin(admin.ModelAdmin):
+    list_display = [
+        "id",
+        "fullname"
+    ]
+@admin.register(Client)
+class ClientAdmin(admin.ModelAdmin):
+    list_display = [
+        "id",
+        "fullname"
+    ]
 @admin.register(MessageLog)
 class MessageLogAdmin(admin.ModelAdmin):
     list_display = [
