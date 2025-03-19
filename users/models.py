@@ -41,10 +41,6 @@ class UserRole(models.Model):
         return f"{self.name}"
 
 class User(AbstractUser):
-    class Status(models.TextChoices):
-        ACTIVE = "AC", "Active"
-        INACTIVE = "IAC","InActive"
-        BLACK_LIST = "BL", "Black List"
 
 
     email = models.EmailField(null=True,blank=True)
@@ -56,11 +52,6 @@ class User(AbstractUser):
     phone_number_regex = RegexValidator(regex=r"^(\+998|998)\d{9}$", message="Phone number Regex")
     comment = models.CharField(max_length=255,null=True,blank=True)
     phone_number = models.CharField(validators=[phone_number_regex], max_length=16, unique=True,null=True)
-    status = models.CharField(max_length=3, choices=Status.choices, default=Status.ACTIVE)
-    passport_id = models.CharField(max_length=16, null=True)
-    driving_licence= models.CharField(max_length=100)
-    driving_licence_expire_Date = models.DateField(null=True)
-    birthdate = models.DateField(null=True)    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     otp_counter = models.PositiveSmallIntegerField(default=0)
