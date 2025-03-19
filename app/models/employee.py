@@ -34,6 +34,7 @@ class Employee(models.Model):
     branch = models.ForeignKey(Branch,related_name="brach_of_employee", on_delete=models.CASCADE)
     salary = models.DecimalField(max_digits=10, decimal_places=2)
     workStatus = models.CharField(max_length=50, choices=WORK_STATUS_CHOICES)
-
+    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True) 
     def __str__(self):
         return self.fullname

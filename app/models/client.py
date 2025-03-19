@@ -15,3 +15,5 @@ class Client(models.Model):
         ('blacklisted', 'Blacklisted'),
     ]
     status = models.CharField(max_length=11, choices=STATUS_CHOICES)
+    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True) 
