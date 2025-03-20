@@ -7,7 +7,7 @@ class EmployeeCreateSerializer(serializers.ModelSerializer):
         model = Employee
         fields = [
             'photo',
-            'fullname'
+            'fullname',
             'dob',
             'gender',
             'phone',
