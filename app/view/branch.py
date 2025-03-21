@@ -12,6 +12,6 @@ class BranchViewSet(viewsets.ModelViewSet):
     # permission_classes = [IsAuthenticated]
     
     def get_serializer_class(self):
-        if self.action == 'create':
+        if self.action == 'create' or self.action=='update':
             return BranchCreateSerializer
         return BranchAllSerializer

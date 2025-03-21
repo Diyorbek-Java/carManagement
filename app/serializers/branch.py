@@ -19,7 +19,7 @@ class BranchCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Branch
-        fields = ['name', 'address', 'status', 'year_of_construction', 'total_area', 'google_map_link']
+        fields = ['name', 'address', 'status', 'year_of_construction', 'total_area', 'google_map_link','yandex_map_link']
 
     def extract_lat_long_from_url(self, url):
         # Extract latitude and longitude from the Google Maps URL
@@ -30,7 +30,7 @@ class BranchCreateSerializer(serializers.ModelSerializer):
         return "", ""
 
     def create(self, validated_data):
-        google_map_link = validated_data.pop('google_map_link')
+        google_map_link = validated_data.get('google_map_link')
         latitude, longitude = self.extract_lat_long_from_url(google_map_link)
 
         if latitude and longitude:
