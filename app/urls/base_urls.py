@@ -11,6 +11,7 @@ from users.views import home,UserViewSet,UserRoleViewSet
 app_name = "base"
 router = DefaultRouter()
 
+
 router.register("branchs", BranchViewSet, basename="Branches")
 router.register("employee",EmployeeViewSet,basename="Employees")
 router.register("client",ClientViewSet,basename="Client")
@@ -21,7 +22,7 @@ router.register("car-features",CarFeaturesModelViewSet,basename="car-features")
 
 urlpatterns = [
     path("herllo",home,name="second hoem")
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += (router.urls 
-    ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
