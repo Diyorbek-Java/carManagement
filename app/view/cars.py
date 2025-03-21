@@ -2,8 +2,8 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from django.db import transaction
 
-from ..serializers.cars import CarSerializer,CarGetSerializer,CarFarutesSerializer
-from ..models.cars import Car,CarImages,CarFeatures
+from ..serializers.cars import CarSerializer,CarGetSerializer,CarFarutesSerializer,CategorySerializer
+from ..models.cars import Car,CarImages,CarFeatures,CarCategory
 from ..pagination .paginations import DefaultLimitOffSetPagination
 from django.db.models import Q
 from rest_framework import status
@@ -16,6 +16,24 @@ class CarFeaturesModelViewSet(viewsets.ModelViewSet):
     queryset = CarFeatures.objects.all()
     serializer_class = CarFarutesSerializer
     pagination_class = DefaultLimitOffSetPagination
+
+class CarCategorySerializer(viewsets.ModelViewSet):
+    queryset = CarCategory.objects.all()
+    serializer_class = CategorySerializer
+
+
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+            cars = Car.objects.filter(category__id=instance.ok)
+            serializer = self.get_serializer(instance)
+            car_serializer = CarGetSerializer(cars,many=True)
+            return Response({
+                "category": serializer.data,  
+                "cars": car_serializer.data  
+            })        
+        except CarCategory.DoesNotExist:
+            return Response({"error": "CarCategory not found"}, status=status.HTTP_404_NOT_FOUND)
 
 class CarViewSet(viewsets.ModelViewSet):
     queryset = Car.objects.filter().order_by('-updated_at')

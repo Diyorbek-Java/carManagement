@@ -9,6 +9,9 @@ def car_images_upload_to(instance, filename):
     filename = f"{uuid4()}.{ext}"
     return os.path.join(f'cars/{instance}/{filename}')
 
+class CarCategory(models.Model):
+    name = models.CharField(max_length=100)
+
 class CarFeatures(models.Model):
     name = models.CharField(max_length=100)
     icon = models.CharField(max_length=100)
@@ -53,6 +56,7 @@ class Car(models.Model):
     brand = models.CharField(max_length=100)
     model = models.CharField(max_length=100)
     license_plate = models.CharField(max_length=20, unique=True)
+    category = models.ForeignKey("app.CarCategory", on_delete=models.CASCADE,null=True)
     seating_capacity = models.PositiveIntegerField()
     transmission = models.CharField(max_length=50)
     mileage = models.PositiveIntegerField()

@@ -1,6 +1,10 @@
 from rest_framework import serializers
 
-from ..models.cars import Car,CarImages,CarFeatures
+from ..models.cars import Car,CarImages,CarFeatures,CarCategory
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CarCategory
+        fields = "__all__"
 
 class CarImageSeriazlier(serializers.ModelSerializer):
 

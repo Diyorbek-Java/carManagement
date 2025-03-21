@@ -2,11 +2,18 @@ from django.contrib import admin
 
 
 from .models.branch import Branch
-from .models.cars import Car,CarImages,CarFeatures
+from .models.cars import Car,CarImages,CarFeatures,CarCategory
 from app.models.notification import MessageLog
 from app.models.employee import Employee
 from app.models.client import Client
 
+
+@admin.register(CarCategory)
+class CarCategory(admin.ModelAdmin):
+    list_display = [
+        "id",
+        "name"
+    ]
 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
