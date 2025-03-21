@@ -5,7 +5,7 @@ class ClientCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
         fields = [
-            'fullname', 'email', 'phonenumber', 'address', 
+            'fullname', 'email', 'phone_number', 'address', 
             'passportid', 'driverLicense', 'licenseExpiry', 
             'age', 'status'
         ] 

@@ -10,7 +10,7 @@ class EmployeeCreateSerializer(serializers.ModelSerializer):
             'fullname',
             'dob',
             'gender',
-            'phone',
+            'phone_number',
             'position',
             'employmentType',
             'hireDate',
