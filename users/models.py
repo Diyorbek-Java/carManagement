@@ -41,8 +41,6 @@ class UserRole(models.Model):
         return f"{self.name}"
 
 class User(AbstractUser):
-
-
     email = models.EmailField(null=True,blank=True)
     address = models.CharField(max_length=255, blank=True, null=True)
     branch = models.ManyToManyField(Branch, blank=True)
