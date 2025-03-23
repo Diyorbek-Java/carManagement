@@ -45,18 +45,6 @@ class CarViewSet(viewsets.ModelViewSet):
             return CarGetSerializer
         return CarSerializer
 
-    # permission_classes = [IsAuthenticated]
-    
-    # def get_queryset(self):
-    #     user_pk = self.request.user.pk
-    #     user = User.objects.get()
-    #     user_branches = user.branch 
-    #     queryset = Car.objects.filter(branch__in=user_branches)
-    #     if user.is_superuser:
-    #         return Car.objects.all()  # Superusers can access all cars
-        
-    #     user_branches = user.branches.all()
-    #     return Car.objects.filter(branch__in=user_branches)
     def create(self, request, *args, **kwargs):
         try:
             data = request.data
@@ -93,12 +81,12 @@ class CarViewSet(viewsets.ModelViewSet):
             with transaction.atomic():
                 serialized_data = CarSerializer(instance, data=data, partial=True)
                 serialized_data.is_valid(raise_exception=True)
-                parcel_instance = serialized_data.save()
+                car_instance = serialized_data.save()
 
                 if images:
                     for image in image_files:
                         CarImages.objects.create(
-                            parcel=parcel_instance, photo=image
+                            car_id=car_instance, photo=image
                         )
         except serializers.ValidationError as e:
             error_messages = {}
