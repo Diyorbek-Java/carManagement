@@ -61,7 +61,7 @@ class Employee(models.Model):
                             name="user"
                         )
                     user = User.objects.create(
-                        phone_number=self.phone,  
+                        phone_number=self.phone_number,  
                         full_name=self.fullname,
                         user_role=user_role,
                         branch=self.branch,
