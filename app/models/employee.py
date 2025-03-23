@@ -61,13 +61,16 @@ class Employee(models.Model):
                             name="user"
                         )
                     user = User.objects.create(
-                        phone_number=self.phone_number,  
-                        full_name=self.fullname,
-                        user_role=user_role,
-                        branch=self.branch,
+                    phone_number=self.phone_number,  
+                    full_name=self.fullname,
+                    user_role=user_role,
                         email=self.user.email if self.user else None,
                     )
-                    user.save()
+
+                    # Assign branches after the user is created
+                    if self.branch:  # Ensure branches exist before assigning
+                        user.branch.set(self.branch) 
+                        user.save()
                     self.user = user
                     self.save()
                 except IntegrityError as e:
