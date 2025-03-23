@@ -55,7 +55,7 @@ class Employee(models.Model):
             if self.workStatus != self.WORK_STATUS_CHOICES.FIRED:
                 try:
                     try:
-                        user_role= User.objects.get(name="user")
+                        user_role= UserRole.objects.get(name="user")
                     except UserRole.DoesNotExist:
                         user_role = UserRole.objects.create(
                             name="user"

@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from app.models.employee import Employee
+from app.serializers.branch import BrachNameSerializer
 
 
 class EmployeeCreateSerializer(serializers.ModelSerializer):
@@ -20,6 +21,7 @@ class EmployeeCreateSerializer(serializers.ModelSerializer):
         ]
 
 class EmployeeSerializer(serializers.ModelSerializer):
+    branch = BrachNameSerializer(required=False)
     class Meta:
         model = Employee
         fields = '__all__'
