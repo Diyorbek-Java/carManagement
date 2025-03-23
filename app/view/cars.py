@@ -17,7 +17,7 @@ class CarFeaturesModelViewSet(viewsets.ModelViewSet):
     serializer_class = CarFarutesSerializer
     pagination_class = DefaultLimitOffSetPagination
 
-class CarCategorySerializer(viewsets.ModelViewSet):
+class CarCategorymodelsViewSet(viewsets.ModelViewSet):
     queryset = CarCategory.objects.all()
     serializer_class = CategorySerializer
 

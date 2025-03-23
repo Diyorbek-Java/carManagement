@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from app.serializers.branch import BrachNameSerializer
 from ..models.cars import Car,CarImages,CarFeatures,CarCategory
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,6 +30,7 @@ class CarFarutesSerializer(serializers.ModelSerializer):
 class CarGetSerializer(serializers.ModelSerializer):
     images = CarImagesGetSerializer(many=True, required=False)
     features = CarFarutesSerializer(many=True,required=False)
+    branch = BrachNameSerializer(required=False)
     class Meta:
         model = Car
         fields = '__all__'

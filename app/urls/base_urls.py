@@ -4,7 +4,7 @@ from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 
 from ..view.branch import BranchViewSet
-from ..view.cars import CarViewSet,CarFeaturesModelViewSet
+from ..view.cars import CarViewSet,CarFeaturesModelViewSet,CarCategorymodelsViewSet
 from ..view.employee import EmployeeViewSet
 from ..view.client import ClientViewSet
 from users.views import home,UserViewSet,UserRoleViewSet
@@ -19,6 +19,7 @@ router.register("cars",CarViewSet,basename="Cars")
 router.register("users",UserViewSet,basename="Users")
 router.register("user-role",UserRoleViewSet,basename="UserRole")
 router.register("car-features",CarFeaturesModelViewSet,basename="car-features")
+router.register("car-catergories",CarCategorymodelsViewSet)
 
 urlpatterns = [
     path("herllo",home,name="second hoem")
