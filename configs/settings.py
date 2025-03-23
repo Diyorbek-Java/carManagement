@@ -30,6 +30,8 @@ DEBUG = True  # os.getenv("DEBUG") == "True"
 ALLOWED_HOSTS = ["*"]
 
 
+CSRF_TRUSTED_ORIGINS = ["*"]
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -61,12 +63,7 @@ INSTALLED_APPS += THIRD_PARTY_APPS + CUSTOM_APPS
 
 SITE_ID = 1
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://carmanagement-1-rmyc.onrender.com',
-    'http://localhost:8000',
-    'http://localhost:3000',
-    'http://carmanagement-1-rmyc.onrender.com',
-]
+
 CORS_ALLOWED_ORIGINS = [
     'https://api.tpm.house',
     'http://localhost:8000',  
