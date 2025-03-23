@@ -29,12 +29,35 @@ class CarFarutesSerializer(serializers.ModelSerializer):
 
 class CarGetSerializer(serializers.ModelSerializer):
     images = CarImagesGetSerializer(many=True, required=False)
-    features = CarFarutesSerializer(many=True,required=False)
+    features = CarFarutesSerializer(many=True, required=False)
     branch = BrachNameSerializer(required=False)
+
+    # Custom method fields for choice fields
+    rental_status = serializers.SerializerMethodField()
+    color = serializers.SerializerMethodField()
+    fuel_type = serializers.SerializerMethodField()
+    engine_size = serializers.SerializerMethodField()
+
     class Meta:
         model = Car
         fields = '__all__'
         extra_fields = ["images"]
+
+    # Method to get the display value for rental_status
+    def get_rental_status(self, obj):
+        return obj.get_rental_status_display()
+
+    # Method to get the display value for color
+    def get_color(self, obj):
+        return obj.get_color_display()
+
+    # Method to get the display value for fuel_type
+    def get_fuel_type(self, obj):
+        return obj.get_fuel_type_display()
+
+    # Method to get the display value for engine_size
+    def get_engine_size(self, obj):
+        return obj.get_engine_size_display()
 
 class CarSerializer(serializers.ModelSerializer):
     images = serializers.FileField(required=False)
