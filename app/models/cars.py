@@ -11,10 +11,14 @@ def car_images_upload_to(instance, filename):
 
 class CarCategory(models.Model):
     name = models.CharField(max_length=100)
+    def __str__(self):
+        return f"{self.name}"
 
 class CarFeatures(models.Model):
     name = models.CharField(max_length=100)
     icon = models.CharField(max_length=100)
+    def __str__(self):
+        return f"{self.name}"
     
 class Car(models.Model):
     COLOR_CHOICES = [

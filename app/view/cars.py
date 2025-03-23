@@ -25,7 +25,7 @@ class CarCategorymodelsViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         try:
             instance = self.get_object()
-            cars = Car.objects.filter(category__id=instance.ok)
+            cars = Car.objects.filter(category__id=instance.pk)
             serializer = self.get_serializer(instance)
             car_serializer = CarGetSerializer(cars,many=True)
             return Response({

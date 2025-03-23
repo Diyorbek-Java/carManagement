@@ -20,3 +20,5 @@ class Client(models.Model):
     status = models.CharField(max_length=11, choices=STATUS_CHOICES.choices)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True) 
+    def __str__(self):
+        return f"{self.phone_number}"
