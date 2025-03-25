@@ -31,7 +31,7 @@ class CarGetSerializer(serializers.ModelSerializer):
     images = CarImagesGetSerializer(many=True, required=False)
     features = CarFarutesSerializer(many=True, required=False)
     branch = BrachNameSerializer(required=False)
-
+    category = CategorySerializer()
     # Custom method fields for choice fields
     rental_status = serializers.SerializerMethodField()
     color = serializers.SerializerMethodField()

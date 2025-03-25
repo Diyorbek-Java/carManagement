@@ -34,7 +34,16 @@ class CarCategorymodelsViewSet(viewsets.ModelViewSet):
             })        
         except CarCategory.DoesNotExist:
             return Response({"error": "CarCategory not found"}, status=status.HTTP_404_NOT_FOUND)
-
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        data = []
+        for category in queryset:
+            number_of_cars = Car.objects.filter(category=category).count()
+            data.append({
+                "category": self.get_serializer(category).data,
+                "number_of_cars": number_of_cars
+            })
+        return Response(data,status=status.HTTP_200_OK)
 class CarViewSet(viewsets.ModelViewSet):
     queryset = Car.objects.filter().order_by('-updated_at')
     serializer_class = CarSerializer
