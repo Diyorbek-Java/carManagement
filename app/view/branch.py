@@ -9,7 +9,7 @@ class BranchViewSet(viewsets.ModelViewSet):
     queryset = Branch.objects.filter().order_by("-updated_at")
     serializer_class = BranchAllSerializer
     pagination_class = DefaultLimitOffSetPagination
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     
     def get_serializer_class(self):
         if self.action == 'create' or self.action=='update':

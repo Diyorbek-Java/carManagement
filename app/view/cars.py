@@ -10,16 +10,19 @@ from rest_framework import status
 from rest_framework import serializers
 from rest_framework.response import Response
 from users.models import User
+from rest_framework.permissions import IsAuthenticated
 
 
 class CarFeaturesModelViewSet(viewsets.ModelViewSet):
     queryset = CarFeatures.objects.all()
     serializer_class = CarFarutesSerializer
     pagination_class = DefaultLimitOffSetPagination
+    permission_classes = [IsAuthenticated]
 
 class CarCategorymodelsViewSet(viewsets.ModelViewSet):
     queryset = CarCategory.objects.all()
     serializer_class = CategorySerializer
+    permission_classes = [IsAuthenticated]
 
 
     def retrieve(self, request, *args, **kwargs):
@@ -48,6 +51,7 @@ class CarViewSet(viewsets.ModelViewSet):
     queryset = Car.objects.filter().order_by('-updated_at')
     serializer_class = CarSerializer
     pagination_class = DefaultLimitOffSetPagination
+    permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -103,3 +107,7 @@ class CarViewSet(viewsets.ModelViewSet):
                 error_messages[field] = ' '.join([str(err) for err in errors])
             return Response({'error': error_messages}, status=status.HTTP_400_BAD_REQUEST)
         return Response({'message': 'Updated'}, status=status.HTTP_200_OK)
+
+    def list(self, request, *args, **kwargs):
+
+        return super().list(request, *args, **kwargs)
