@@ -15,7 +15,6 @@ class BrachNameSerializer(serializers.ModelSerializer):
 
 
 class BranchCreateSerializer(serializers.ModelSerializer):
-    google_map_link = serializers.CharField(write_only=True)
 
     class Meta:
         model = Branch
