@@ -146,18 +146,18 @@ TEMPLATES = [
 DATABASES = {
     "default": {
         "ENGINE": os.getenv("SQL_ENGINE", "django.db.backends.postgresql"),
-        "NAME": os.getenv("SQL_DATABASE"),
-        "USER": os.getenv("SQL_USERNAME"),
-        "PASSWORD": os.getenv("SQL_PASSWORD"),
-        "HOST": os.getenv("SQL_HOST", "db"),
+        "NAME": os.getenv("SQL_DATABASE","demo_fj8x"),
+        "USER": os.getenv("SQL_USERNAME","demo_user"),
+        "PASSWORD": os.getenv("SQL_PASSWORD","f8wYyZVuLtkDQVBaQmqvSidnb3zcUjT5"),
+        "HOST": os.getenv("SQL_HOST", "dpg-d0379egdl3ps739jj3hg-a"),
         "PORT": os.getenv("SQL_PORT", "5432"),
     }
 }
 
 # If using Render or another service, override database settings
-# DATABASE_URL = os.getenv("DATABASE_URL")
-# if DATABASE_URL:
-#     DATABASES["default"] = dj_database_url.config(default=DATABASE_URL, conn_max_age=600, ssl_require=True)
+DATABASE_URL = os.getenv("DATABASE_URL")
+if DATABASE_URL:
+    DATABASES["default"] = dj_database_url.config(default=DATABASE_URL, conn_max_age=600, ssl_require=True)
 
 AUTH_PASSWORD_VALIDATORS = [
     {
