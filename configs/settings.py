@@ -65,12 +65,11 @@ SITE_ID = 1
 
 
 CORS_ALLOWED_ORIGINS = [
-    'https://api.tpm.house',
+    'https://carmanagement-1-rmyc.onrender.com',
+    'http://carmanagement-1-rmyc.onrender.com',
     'http://localhost:8000',  
     'http://localhost:3000', 
-    'https://app.tpm.house',
-    'http://carmanagement-1-rmyc.onrender.com',
-    'https://carmanagement-1-rmyc.onrender.com', 
+    'https://app.tpm.house', 
     'https://xsoftt.vercel.app'
 ]
 
@@ -105,7 +104,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    # "django.middleware.csrf.CsrfViewMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",

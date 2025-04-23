@@ -8,6 +8,7 @@ from ..view.cars import CarViewSet,CarFeaturesModelViewSet,CarCategorymodelsView
 from ..view.employee import EmployeeViewSet
 from ..view.client import ClientViewSet
 from users.views import home,UserViewSet,UserRoleViewSet
+from ..view.statistics import CarStatistics,ClientStatisticsAPIView,EmployeeStatisticsAPIView
 app_name = "base"
 router = DefaultRouter()
 
@@ -20,10 +21,15 @@ router.register("users",UserViewSet,basename="Users")
 router.register("user-role",UserRoleViewSet,basename="UserRole")
 router.register("car-features",CarFeaturesModelViewSet,basename="car-features")
 router.register("car-catergories",CarCategorymodelsViewSet)
+statics = [
+    path("car-statisitcs/",CarStatistics.as_view(),name="car-statisitcs"),
+    path("client-statisitcs/",ClientStatisticsAPIView.as_view(),name="client-statisitcs"),
+    path("employee-statisitcs/",EmployeeStatisticsAPIView.as_view(),name="employee-statisitcs")
+]
 
 urlpatterns = [
     path("herllo",home,name="second hoem")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-urlpatterns += (router.urls 
+urlpatterns += (router.urls + statics
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
