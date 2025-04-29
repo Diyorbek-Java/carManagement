@@ -9,6 +9,7 @@ from ..view.employee import EmployeeViewSet
 from ..view.client import ClientViewSet
 from users.views import home,UserViewSet,UserRoleViewSet
 from ..view.statistics import CarStatistics,ClientStatisticsAPIView,EmployeeStatisticsAPIView
+from ..view.reservation import ReservationViewSet
 app_name = "base"
 router = DefaultRouter()
 
@@ -21,6 +22,7 @@ router.register("users",UserViewSet,basename="Users")
 router.register("user-role",UserRoleViewSet,basename="UserRole")
 router.register("car-features",CarFeaturesModelViewSet,basename="car-features")
 router.register("car-catergories",CarCategorymodelsViewSet)
+router.register("reservation",ReservationViewSet,basename="Reservation")
 statics = [
     path("car-statisitcs/",CarStatistics.as_view(),name="car-statisitcs"),
     path("client-statisitcs/",ClientStatisticsAPIView.as_view(),name="client-statisitcs"),
