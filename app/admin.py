@@ -6,8 +6,15 @@ from .models.cars import Car,CarImages,CarFeatures,CarCategory
 from app.models.notification import MessageLog
 from app.models.employee import Employee
 from app.models.client import Client
+from app.models.reservation import Reservation
 
 
+@admin.register(Reservation)
+class ReservationCategory(admin.ModelAdmin):
+    list_display = [
+        "id",
+        "total_price_renting"
+    ]
 @admin.register(CarCategory)
 class CarCategory(admin.ModelAdmin):
     list_display = [
