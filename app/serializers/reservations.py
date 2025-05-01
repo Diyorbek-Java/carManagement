@@ -16,9 +16,7 @@ class ReservationCreateUpdateSerializer(serializers.ModelSerializer):
             'branch',
             'status'
         ]
-        extra_kwargs = {
-            'status': {'read_only': True},  # Status should be set by the system, not user
-        }
+
 
     def validate(self, data):
         errors = {}
