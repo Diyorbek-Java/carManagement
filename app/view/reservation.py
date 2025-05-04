@@ -1,14 +1,16 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from app.models.reservation import Reservation
-from app.serializers.reservations import ReservationCreateUpdateSerializer, ReservationRetrieveSerializer
+from app.serializers.reservations import ReservationCreateUpdateSerializer, ReservationRetrieveSerializer,ReservationPartialUpdateSerializer
 
 class ReservationViewSet(viewsets.ModelViewSet):
     queryset = Reservation.objects.all()
     
     def get_serializer_class(self):
-        if self.action in ['create', 'update', 'partial_update']:
+        if self.action in ['create', 'partial_update']:
             return ReservationCreateUpdateSerializer
+        if self.action=='update':
+            return ReservationPartialUpdateSerializer
         return ReservationRetrieveSerializer
 
     def create(self, request, *args, **kwargs):
