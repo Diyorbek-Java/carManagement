@@ -40,9 +40,7 @@ class ReservationViewSet(viewsets.ModelViewSet):
         return Response(retrieve_serializer.data)
 
     def perform_create(self, serializer):
-        # You can add any additional logic here before saving
         serializer.save()
 
     def perform_update(self, serializer):
-        # You can add any additional logic here before saving
         serializer.save()
