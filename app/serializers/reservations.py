@@ -16,7 +16,9 @@ class ReservationCreateUpdateSerializer(serializers.ModelSerializer):
             'branch',
             'status'
         ]
-
+        extra_kwargs = {
+            'total_price_renting': {'required': False},
+            }
 
     def validate(self, data):
         errors = {}
@@ -66,6 +68,7 @@ class ReservationRetrieveSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at'
         ]
+
 
 class ReservationPartialUpdateSerializer(serializers.ModelSerializer):
     class Meta:
