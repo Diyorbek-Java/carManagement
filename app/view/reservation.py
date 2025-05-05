@@ -8,8 +8,11 @@ from django.utils import timezone
 from django.core.exceptions import ValidationError
 from app.models.cars import Car
 import math
+from rest_framework.permissions import IsAuthenticated
+
 
 class ReservationViewSet(viewsets.ModelViewSet):
+    parser_classes = [IsAuthenticated]
     queryset = Reservation.objects.all()
     
     def get_serializer_class(self):
