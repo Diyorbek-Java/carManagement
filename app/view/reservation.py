@@ -12,7 +12,7 @@ from rest_framework.permissions import IsAuthenticated
 
 
 class ReservationViewSet(viewsets.ModelViewSet):
-    parser_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     queryset = Reservation.objects.all()
     
     def get_serializer_class(self):
