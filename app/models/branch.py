@@ -17,8 +17,6 @@ class Branch(models.Model):
     total_area = models.FloatField(default=10)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)    
-    google_map_link = models.CharField(max_length=255,null=True,blank=True)
-    yandex_map_link = models.CharField(max_length=255,null=True,blank=True)
     latitude = models.CharField(max_length=20)
     longitude = models.CharField(max_length=20)
 
