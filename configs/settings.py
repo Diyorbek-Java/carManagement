@@ -74,6 +74,7 @@ CORS_ALLOW_CREDENTIALS = True
 
 CSRF_TRUSTED_ORIGINS = [
     'https://carmanagement-1-rmyc.onrender.com/',
+    'https://carmanagement-1-rmyc.onrender.com'
     'https://xsoftt.vercel.app'
 ]
 
