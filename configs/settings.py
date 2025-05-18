@@ -68,6 +68,9 @@ SITE_ID = 1
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:8000',  
     'http://localhost:3000', 
+    'http://45.92.173.249:8000',
+    'https://*.drivex.uz:8000',
+    'http://*.drivex.uz:8000'
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -75,7 +78,11 @@ CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = [
     'https://carmanagement-1-rmyc.onrender.com/',
     'https://carmanagement-1-rmyc.onrender.com',
-    'https://xsoftt.vercel.app'
+    'https://xsoftt.vercel.app',
+    'https://45.92.173.249:8000',
+    'http://45.92.173.249:8000',
+    'https://*.drivex.uz:8000',
+    'http://*.drivex.uz:8000'
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -132,10 +139,10 @@ DATABASES = {
     }
 }
 
-# If using Render or another service, override database settings
-DATABASE_URL = os.getenv("DATABASE_URL")
-if DATABASE_URL:
-    DATABASES["default"] = dj_database_url.config(default=DATABASE_URL, conn_max_age=600, ssl_require=True)
+# # If using Render or another service, override database settings
+# DATABASE_URL = os.getenv("DATABASE_URL")
+# if DATABASE_URL:
+#     DATABASES["default"] = dj_database_url.config(default=DATABASE_URL, conn_max_age=600, ssl_require=True)
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -169,7 +176,7 @@ REST_FRAMEWORK = {
 
 }
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Car management',
+    'TITLE': 'Car Management System',
     'DESCRIPTION': 'Detailed documentation of all API endpoints',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,

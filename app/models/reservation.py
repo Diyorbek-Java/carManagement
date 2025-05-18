@@ -3,6 +3,7 @@ from app.models.branch import Branch
 from app.models.cars import Car
 from django.utils.translation import gettext_lazy as _
 from app.models.employee import Employee
+from app.models.client import Client
 
 class Reservation(models.Model):
     class Status(models.TextChoices):
@@ -15,6 +16,7 @@ class Reservation(models.Model):
     car = models.ForeignKey(Car,on_delete=models.CASCADE)
     status = models.CharField(max_length=50, choices=Status.choices, default=Status.Pending)
     total_price_renting = models.DecimalField(max_digits=15, decimal_places=2)
+    client = models.ForeignKey(Client,on_delete=models.CASCADE,null=True,blank=True)
     branch = models.ForeignKey(Branch,on_delete=models.CASCADE)
     return_date = models.DateTimeField()
     pick_up_date = models.DateTimeField()

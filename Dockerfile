@@ -11,13 +11,15 @@ RUN apt-get update \
     gcc \
     python3-dev \
     libpq-dev \
+    curl \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python dependencies
+# Copy only requirements first to leverage Docker cache
 COPY requirements.txt .
 RUN pip install --upgrade pip \
-    && pip install -r requirements.txt
+    && pip install --no-cache-dir -r requirements.txt \
+    && pip install --no-cache-dir drf-spectacular==0.27.2
 
 # Copy project
 COPY . .
@@ -25,12 +27,12 @@ COPY . .
 # Create directories for static and media files
 RUN mkdir -p /app/staticfiles /app/media
 
-# Create and switch to a non-root user
-RUN useradd -m appuser && \
-    chown -R appuser:appuser /app
-USER appuser
+# Make scripts executable
+RUN if [ -d "/app/scripts" ]; then chmod +x /app/scripts/*.sh; fi
 
 EXPOSE 8000
 
-# Simple command to check if Gunicorn is installed
-CMD ["sh", "-c", "python -c 'import gunicorn'; echo 'Gunicorn is installed'; sleep 3600"]
+# Simple startup command to run migrations and start the server
+CMD python manage.py migrate && \
+    python manage.py collectstatic --noinput && \
+    gunicorn --bind 0.0.0.0:8000 --workers 3 --timeout 120 configs.wsgi:application

@@ -8,7 +8,11 @@ from drf_yasg.utils import swagger_auto_schema
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from drf_yasg import openapi
-
+from django.http import HttpResponse
+from app.models.employee import Employee
+from django.utils.translation import gettext as _
+from django.core.exceptions import ObjectDoesNotExist
+from datetime import date
 import random
 import string,secrets
 from rest_framework import viewsets
@@ -145,7 +149,104 @@ def get_user_data(request):
     except Exception as e:
         return Response({"error": f"{e}"}, status=404)
 
-from django.http import HttpResponse
+class CreateEmployeeFromUserAPIView(APIView):
 
+
+    # permission_classes = [IsAuthenticated]
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'user_id': openapi.Schema(type=openapi.TYPE_INTEGER, description='User ID to create employee from'),
+            },
+            required=['user_id'],
+        ),
+        responses={
+            201: openapi.Response("Employee created successfully", openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    "message": openapi.Schema(type=openapi.TYPE_STRING, description="Success message"),
+                    "employee_id": openapi.Schema(type=openapi.TYPE_INTEGER, description="Employee ID"),
+                    "employee_name": openapi.Schema(type=openapi.TYPE_STRING, description="Employee name"),
+                }
+            )),
+            400: openapi.Response("Bad Request", openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    "error": openapi.Schema(type=openapi.TYPE_STRING, description="Error message")
+                }
+            )),
+            404: openapi.Response("Not Found", openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    "error": openapi.Schema(type=openapi.TYPE_STRING, description="Error message")
+                }
+            )),
+        }
+    )
+    def post(self, request, *args, **kwargs):
+        try:
+            user_id = request.data.get('user_id')
+            if not user_id:
+                return Response(
+                    {"error": _("User ID is required")},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            # Get the user
+            user = User.objects.get(id=user_id)
+            
+            # Check if this user already has an employee record
+            if Employee.objects.filter(user=user).exists():
+                return Response(
+                    {"error": _("This user already has an employee record")},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            branch = user.branch.first() if user.branch.exists() else None
+            if branch is None:
+                return Response(
+                    {"error": _("User must be assigned to a branch to create employee record")},
+                    status=status.HTTP_400_BAD_REQUEST
+                )            
+            # Default values - you may want to make these configurable
+            default_values = {
+                'fullname': user.full_name or "New Employee",
+                'dob': date.today(),  # Default to today, should be provided in real scenario
+                'gender': 'Male',     # Default gender, should be provided
+                'position': 'Staff',  # Default position
+                # 'branch':branch ,
+                'employmentType': 'Full_time',
+                'hireDate': date.today(),
+                'salary': 0,        # Default salary, should be provided
+                'workStatus': 'Active',
+            }
+            
+            # Create the employee
+            employee = Employee.objects.create(
+                user=user,
+                phone_number=user.phone_number,
+                branch=user.branch.first() if user.branch.exists() else None,
+                **default_values
+            )
+            
+            return Response(
+                {
+                    "message": _("Employee created successfully"),
+                    "employee_id": employee.id,
+                    "employee_name": employee.fullname
+                },
+                status=status.HTTP_201_CREATED
+            )
+            
+        except ObjectDoesNotExist:
+            return Response(
+                {"error": _("User not found")},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 def home(request):
     return HttpResponse("Welcome to the homepage!")

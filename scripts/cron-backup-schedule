@@ -1,0 +1,14 @@
+# Cron schedule for database backups
+# Place this file in /etc/cron.d/ on your production server
+
+# Run daily backup at 1:00 AM
+0 1 * * * root /opt/backend/scripts/advanced-backup.sh daily >> /var/log/cron-backup.log 2>&1
+
+# Run weekly backup on Sunday at 2:00 AM
+0 2 * * 0 root /opt/backend/scripts/advanced-backup.sh weekly >> /var/log/cron-backup.log 2>&1
+
+# Run monthly backup on the 1st of each month at 3:00 AM
+0 3 1 * * root /opt/backend/scripts/advanced-backup.sh monthly >> /var/log/cron-backup.log 2>&1
+
+# Cleanup logs older than 30 days at 4:00 AM every day
+0 4 * * * root find /var/log/cron-backup.log -mtime +30 -delete
