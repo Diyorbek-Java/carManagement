@@ -4,6 +4,7 @@ from app.models.reservation import Reservation
 from app.serializers.employee import EmpliyeeContectGetSerilairzer
 from app.serializers.cars import CarGetSerializer
 from app.serializers.branch import BrachNameSerializer
+from app.serializers.client  import ClientSerializer
 class ReservationCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reservation
@@ -12,13 +13,16 @@ class ReservationCreateUpdateSerializer(serializers.ModelSerializer):
             'car',
             'pick_up_date',
             'return_date',
+            'client',
             'total_price_renting',
             'branch',
             'status'
         ]
         extra_kwargs = {
             'total_price_renting': {'required': False},
+            'client': {'required': True},
             }
+        
 
     def validate(self, data):
         errors = {}
@@ -52,6 +56,7 @@ class ReservationRetrieveSerializer(serializers.ModelSerializer):
     car = CarGetSerializer()
     branch = BrachNameSerializer()
     status_display = serializers.CharField(source='get_status_display', read_only=True)
+    client = ClientSerializer( read_only=True)
 
     class Meta:
         model = Reservation
@@ -63,6 +68,7 @@ class ReservationRetrieveSerializer(serializers.ModelSerializer):
             'status_display',
             'total_price_renting',
             'branch',
+            'client',
             'return_date',
             'pick_up_date',
             'created_at',

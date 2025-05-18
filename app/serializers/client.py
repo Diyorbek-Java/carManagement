@@ -9,7 +9,7 @@ class ClientCreateSerializer(serializers.ModelSerializer):
             'passportid', 'driverLicense', 'licenseExpiry', 
             'age', 'status'
         ] 
-class CleintSerializer(serializers.ModelSerializer):
+class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
         fields = '__all__'

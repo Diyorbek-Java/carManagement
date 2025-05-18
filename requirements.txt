@@ -11,5 +11,5 @@ django-modeltranslation==0.19.12
 django-rosetta==0.10.1
 setuptools>=58.0.0
 drf-yasg
-gunicorn==21.2.0
 drf-spectacular==0.27.2
+gunicorn==21.2.0

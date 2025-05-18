@@ -1,4 +1,4 @@
-version: '3.8'
+version: '2.4'
 
 services:
   db:
@@ -6,43 +6,69 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_USER=${SQL_USERNAME:-postgres}
-      - POSTGRES_PASSWORD=${SQL_PASSWORD:-postgres}
-      - POSTGRES_DB=${SQL_DATABASE:-carmanagement}
-    ports:
-      - "5432:5432"
+      - POSTGRES_USER=${SQL_USERNAME}
+      - POSTGRES_PASSWORD=${SQL_PASSWORD}
+      - POSTGRES_DB=${SQL_DATABASE}
+    restart: unless-stopped
+    networks:
+      - backend_network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${SQL_USERNAME:-postgres}"]
+      test: ["CMD-SHELL", "pg_isready -U ${SQL_USERNAME}"]
       interval: 5s
       timeout: 5s
       retries: 5
-    restart: unless-stopped
 
   web:
     build: .
     restart: unless-stopped
     volumes:
-      - .:/app
       - static_volume:/app/staticfiles
       - media_volume:/app/media
-    ports:
-      - "8000:8000"
-    env_file:
-      - .env
+      - .:/app
     environment:
+      - SQL_ENGINE=django.db.backends.postgresql
+      - SQL_DATABASE=${SQL_DATABASE}
+      - SQL_USERNAME=${SQL_USERNAME}
+      - SQL_PASSWORD=${SQL_PASSWORD}
       - SQL_HOST=db
       - SQL_PORT=5432
-      - PYTHONUNBUFFERED=1
-      - PYTHONDONTWRITEBYTECODE=1
+      - DEBUG=False
+    env_file:
+      - .env
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      - backend_network
+      - frontend_network
+    ports:
+      - "8000:8000"
     command: >
       sh -c "python manage.py migrate &&
              python manage.py collectstatic --noinput &&
-             gunicorn --bind 0.0.0.0:8000 configs.wsgi:application"
+             gunicorn --bind 0.0.0.0:8000 --workers 3 --timeout 120 configs.wsgi:application"
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - static_volume:/static
+      - media_volume:/media
+    ports:
+      - "8000:8000"
+    depends_on:
+      - web
+    networks:
+      - frontend_network
 
 volumes:
   postgres_data:
   static_volume:
   media_volume:
+
+networks:
+  backend_network:
+    driver: bridge
+  frontend_network:
+    driver: bridge

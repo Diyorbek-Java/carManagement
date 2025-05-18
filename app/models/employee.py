@@ -22,12 +22,12 @@ class Employee(models.Model):
         FEMALE = "Female", _("Female")
     
     class EMPLOYMENT_TYPE_CHOICES(models.TextChoices):
-        MALE = "Full_time", _("Full-time")
+        FULLTIME = "Full_time", _("Full-time")
         PART_TIME= "Part_time",_("Part-time")
         CONTRACT = "Contract", _("Contract")
         
     class WORK_STATUS_CHOICES(models.TextChoices):
-        Active="Active",_("Active")
+        ACTIVE="Active",_("Active")
         VACATION="Vacation",_("Vacatio")
         FIRED="Fired",_("Fired")
 
@@ -48,35 +48,6 @@ class Employee(models.Model):
     created_at = models.DateTimeField(auto_now_add=True) 
     user=models.ForeignKey(User,on_delete=models.SET_NULL,null=True,blank=True)
 
-    def save(self, *args, **kwargs):
-        is_new = self._state.adding 
-        super().save(*args, **kwargs) 
-        if is_new:
-            if self.workStatus != self.WORK_STATUS_CHOICES.FIRED:
-                try:
-                    try:
-                        user_role= UserRole.objects.get(name="user")
-                    except UserRole.DoesNotExist:
-                        user_role = UserRole.objects.create(
-                            name="user"
-                        )
-                    user = User.objects.create(
-                    phone_number=self.phone_number,  
-                    full_name=self.fullname,
-                    user_role=user_role,
-                        email=self.user.email if self.user else None,
-                    )
-
-                    # Assign branches after the user is created
-                    if self.branch:  # Ensure branches exist before assigning
-                        user.branch.set(self.branch) 
-                        user.save()
-                    self.user = user
-                    self.save()
-                except IntegrityError as e:
-                    print(f"Failed to create user: {e}")
-                except ValidationError as e:
-                    print(f"Validation error: {e}")
 
 
     def __str__(self):
