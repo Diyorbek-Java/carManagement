@@ -165,7 +165,7 @@ class EmployeeStatisticsAPIView(APIView):
         
         # Active employees count
         active_staffs = Employee.objects.filter(
-            workStatus=Employee.WORK_STATUS_CHOICES.Active
+            workStatus=Employee.WORK_STATUS_CHOICES.ACTIVE
         ).count()
         
         # Employees on vacation count
