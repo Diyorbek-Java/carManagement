@@ -17,7 +17,7 @@ class Client(models.Model):
     driverLicense = models.CharField(max_length=255,unique=True,null=True, blank=True)
     licenseExpiry = models.DateField(null=True, blank=True)
     age = models.IntegerField()
-    status = models.CharField(max_length=11, choices=STATUS_CHOICES.choices,default=STATUS_CHOICES.InActive)
+    status = models.CharField(max_length=11, choices=STATUS_CHOICES.choices,default=STATUS_CHOICES.Active)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True) 
     def __str__(self):
