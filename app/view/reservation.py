@@ -27,13 +27,12 @@ class ReservationViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         data = self.perform_create(serializer)
 
-        if data.get("success") is False:  # Using .get() is safer
-            return Response(data["data"], status=status.HTTP_400_BAD_REQUEST)  # Make 
+        if data.get("success") is False:
+            return Response(data["data"], status=status.HTTP_400_BAD_REQUEST)
         headers = self.get_success_headers(serializer.data)
-        # Return with retrieve serializer
         retrieve_serializer = ReservationRetrieveSerializer(instance=serializer.instance)
         return Response(retrieve_serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-
+    
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
@@ -52,62 +51,32 @@ class ReservationViewSet(viewsets.ModelViewSet):
         return_date = validated_data['return_date']
         branch = validated_data['branch']
 
-        # Check date validity
         if pick_up_date >= return_date:
-            return {
-                "success": False,
-                "data": {"message": "Pick-up date must be before return date"}
-            }
-        
+            return {"success": False, "data": {"message": "Pick-up date must be before return date"}}
         if pick_up_date < timezone.now():
-            return {
-                "success": False,
-                "data": {"message": "Pick-up date cannot be in the past"}
-            }
-        
-        # Check branch consistency
+            return {"success": False, "data": {"message": "Pick-up date cannot be in the past"}}
         if car.branch != branch:
-            return {
-                "success": False,
-                "data": {"message": "Car and reservation should be in the same branch"}
-            }
+            return {"success": False, "data": {"message": "Car and reservation should be in the same branch"}}
 
-        # Check car availability
         conflicting_reservations = Reservation.objects.filter(
             car=car,
             status__in=[Reservation.Status.Pending, Reservation.Status.Confirmed],
             pick_up_date__lte=return_date,
             return_date__gte=pick_up_date
         )
-        
-        # Exclude current instance for updates
-        if hasattr(self, 'instance') and self.instance:
-            conflicting_reservations = conflicting_reservations.exclude(pk=self.instance.pk)
-        
         if conflicting_reservations.exists():
-            return {
-                "success": False,
-                "data": {"message": "Car is not available for the selected dates"}  # Fixed this line
-            }
+            return {"success": False, "data": {"message": "Car is not available for the selected dates"}}
 
-        # Set default status to Pending
         if 'status' not in validated_data:
             validated_data['status'] = Reservation.Status.Pending
 
-        # Calculate total_price_renting if not provided
         if 'total_price_renting' not in validated_data:
             rental_days = math.ceil((return_date - pick_up_date).total_seconds() / (24 * 3600))
             validated_data['total_price_renting'] = car.rental_price_per_day * rental_days
 
-        # Update car status to reserved
         car.rental_status = Car.RENTAL_STATUS_CHOICES.RESERV
         car.save()
-        
-        return {
-            "success": True,
-            "data": serializer.save()
-        }
-
+        return {"success": True, "data": serializer.save()}
     def perform_update(self, serializer):
         instance = serializer.instance
         validated_data = serializer.validated_data
