@@ -10,7 +10,7 @@ from ..view.client import ClientViewSet
 from users.views import home,UserViewSet,UserRoleViewSet,CreateEmployeeFromUserAPIView
 from ..view.statistics import CarStatistics,ClientStatisticsAPIView,EmployeeStatisticsAPIView
 from ..view.reservation import ReservationViewSet
-from ..view.dashboard import FixedDashboardAPIView,CustomDashboardAPIView
+from ..view.dashboard import FixedDashboardAPIView,CustomDashboardAPIView,RentalDashboardAPIView
 app_name = "base"
 router = DefaultRouter()
 
@@ -28,8 +28,9 @@ statics = [
     path("car-statisitcs/",CarStatistics.as_view(),name="car-statisitcs"),
     path("client-statisitcs/",ClientStatisticsAPIView.as_view(),name="client-statisitcs"),
     path("employee-statisitcs/",EmployeeStatisticsAPIView.as_view(),name="employee-statisitcs"),
-    path('api/dashboard/fixed/', FixedDashboardAPIView.as_view(), name='fixed_dashboard'),
-    path('api/dashboard/custom/', CustomDashboardAPIView.as_view(), name='custom_dashboard'),
+    path('dashboard/fixed/', FixedDashboardAPIView.as_view(), name='fixed_dashboard'),
+    path('dashboard/custom/', CustomDashboardAPIView.as_view(), name='custom_dashboard'),
+    path('dashboard/rental/<int:year>/<int:month>/', RentalDashboardAPIView.as_view(), name='rental-dashboard'),
     path("create-employee-from-user/",CreateEmployeeFromUserAPIView.as_view(),name="create-employee-from-user"),
 ]
 
